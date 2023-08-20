@@ -31,7 +31,7 @@ template<class It, class Func> constexpr Func foreachPar(It start, It end, Func 
 
 		new_end = start + (range / threads);
 		
-		std::async(std::launch::async, foreachPar<It, Func>, new_end, end, func, --threads);
+		std::future<Func> ft = std::async(std::launch::async, foreachPar<It, Func>, new_end, end, func, --threads);
 	}
 
 	for (; start != new_end; ++start)
