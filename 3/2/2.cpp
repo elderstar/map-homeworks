@@ -22,23 +22,37 @@ std::vector<int> generateRandVector(int size)
 	return vec;
 }
 
-template<class It, class Func> constexpr Func foreachPar(It start, It end, Func func, int threads = 1)
+template<class It, class Func> void foreachPar(It start, It end, Func func)
 {
-	It new_end = end;
-	if (threads > 1)
-	{
-		ptrdiff_t range = end - start;
+	ptrdiff_t range = end - start;
 
-		new_end = start + (range / threads);
+	if (!range)
+	{
+		return;
+	}
+
+	int min_size = 10;
+
+	if (range <= min_size)
+	{
+		std::for_each(start, end, func);
+	}else
+	{
+		It mid = start + (range / 2);
 		
-		std::future<Func> ft = std::async(std::launch::async, foreachPar<It, Func>, new_end, end, func, --threads);
-	}
+		std::future<void> ft = std::async(std::launch::async, foreachPar<It, Func>, start, mid, func);
 
-	for (; start != new_end; ++start)
-	{
-		func(*start);
+		try
+		{
+			foreachPar(mid, end, func);
+		}
+		catch (const std::exception& e)
+		{
+			throw;
+		}
+
+		ft.get();
 	}
-	return func;
 }
 
 int main()
@@ -51,5 +65,5 @@ int main()
 		print(el);
 	}
 	std::cout << std::endl;
-	foreachPar(vec.begin(), vec.end(), print, 3);
+	foreachPar(vec.begin(), vec.end(), print);
 }
