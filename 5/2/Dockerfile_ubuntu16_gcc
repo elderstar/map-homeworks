@@ -1,0 +1,7 @@
+FROM ubuntu:16.04
+	LABEL maintainer starovoytovsergeya@gmail.com
+	RUN apt-get update && apt-get install -y g++
+	WORKDIR /home/test/
+	COPY ConsoleApplication1.cpp .
+	RUN g++ -pthread -std=c++17 ConsoleApplication1.cpp -o app
+	CMD ["./app"]
