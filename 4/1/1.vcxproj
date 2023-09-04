@@ -131,11 +131,9 @@
   <ItemGroup>
     <ClCompile Include="1.cpp" />
     <ClCompile Include="shape.cpp" />
-    <ClCompile Include="transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shape.h" />
-    <ClInclude Include="transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include "shape.h"
-#include "transform.h"
 
 void print(Shape & figure)
 {
@@ -19,9 +18,9 @@ int main()
 	print(square);
 	std::cout << "\n\n";
 
-	square = transform(square).scaleX(2);
-	square = transform(square).scaleY(2);
-	square = transform(square).scaleZ(2);
+	square.scaleX(2);
+	square.scaleY(2);
+	square.scaleZ(2);
 	print(square);
 	std::cout << "\n\n";
 
@@ -31,13 +30,13 @@ int main()
 	print(cube);
 	std::cout << "\n\n";
 
-	cube = transform(cube).scaleX(2);
-	cube = transform(cube).scaleY(2);
-	cube = transform(cube).scaleZ(2);
+	cube.scaleX(2);
+	cube.scaleY(2);
+	cube.scaleZ(2);
 	print(cube);
 	std::cout << "\n\n";
 
-	cube = transform(cube).scale(2);
+	cube.scale(2);
 	print(cube);
 	std::cout << "\n\n";
 
@@ -49,7 +48,7 @@ int main()
 
 	try
 	{
-		circle = transform(circle).scaleX(2);
+		circle.scaleX(2);
 		print(circle);
 		std::cout << "\n\n";
 	}

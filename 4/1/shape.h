@@ -20,9 +20,9 @@ class Figure
 public:
 	Figure() {};
 	~Figure() {};
-	double virtual countSideLength(point start, point end);
-	double virtual countSqr();
-	double virtual countVlm();
+	double virtual countSideLength(point start, point end) const;
+	double virtual countSqr() const;
+	double virtual countVlm() const;
 	std::string name = "Figure";
 	Types type;
 };
@@ -42,7 +42,7 @@ class Square : public Figure
 public:
 	Square(point _A, point _B, point _C, point _D);
 	~Square() {};
-	double countSqr() override;
+	double countSqr() const override;
 private:
 	point A;
 	point B;
@@ -55,8 +55,8 @@ class Cube : public Figure
 public:
 	Cube(point _A, point _B, point _C, point _D, point _E, point _F, point _G, point _H);
 	~Cube() {};
-	double countSqr() override;
-	double countVlm() override;
+	double countSqr() const override;
+	double countVlm() const override;
 private:
 	point A, B, C, D, E, F, G, H;
 };
@@ -66,7 +66,7 @@ class Circle : public Figure
 public:
 	Circle(point _center, int _radius);
 	~Circle() {};
-	double countSqr() override;
+	double countSqr() const override;
 private:
 	point center;
 	int radius;
@@ -77,8 +77,8 @@ class Cylinder : public Figure
 public:
 	Cylinder(point _center, int _radius, int _height);
 	~Cylinder() {};
-	double countSqr() override;
-	double countVlm() override;
+	double countSqr() const override;
+	double countVlm() const override;
 private:
 	point center;
 	int radius;
@@ -95,16 +95,25 @@ public:
 	Shape(point _center, int _radius);
 	Shape(point _center, int _radius, int _height);
 
-	template<class T> void init(const std::unique_ptr<T>& figure);
-	int getType() { return type; }
+	void init(const std::unique_ptr<Figure>& figure);
+	int getType() const { return type; }
 	void setType(Types _type) { type = _type; }
-	std::string getName() { return name; }
-	double getVolume() { return volume; }
-	double getSquare() { return square; }
-
+	std::string getName() const { return name; }
+	double getVolume() const { return volume; }
+	double getSquare() const { return square; }
+	void count();
 	point& getPoint(int i) { return points.at(i); };
-	int getPointCount() { return points.size(); }
+	std::vector<point>* getPoints() { return &points; };
+	int getPointCount() const { return points.size(); };
+	void reInitFigure();
+
+	void shift(int m, int n, int k);
+	void scaleX(int a);
+	void scaleY(int d);
+	void scaleZ(int e);
+	void scale(int s);
 private:
+	std::unique_ptr<Figure> figure;
 	std::vector<point> points{};
 	point center;
 	std::string name = "";
